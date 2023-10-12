@@ -1,6 +1,5 @@
-import isValidURL from "@/app/lib/isValidUrl";
+import isValidURL from "@/app/lib/isValidURL";
 const { NextResponse } = require("next/server");
-
 
 
 export async function POST(request){
