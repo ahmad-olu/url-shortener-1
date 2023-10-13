@@ -1,5 +1,5 @@
 import React from "react";
-import { getShortLinkRecords } from "@/app/lib/db";
+import { getShortLinkRecord } from "@/app/lib/db";
 import { notFound } from "next/navigation";
 import getDomain from "../lib/getDomain";
 
@@ -21,7 +21,7 @@ async function ShortPage({params}) {
     if (!short){
         notFound()
     }
-    const [record] = await getShortLinkRecords(short)
+    const [record] = await getShortLinkRecord(short)
     if (!record){
         notFound()
     }

@@ -2,10 +2,13 @@
 
 import React, { useState } from "react";
 
+import { Alert, Button, Label, TextInput } from 'flowbite-react';
+
 
 
 function LinksCreateForm({didSubmit}) {
     const [results, setResults] = useState(null)
+    const [message, setMessage] = useState(null)
 
     const handleForm = async (event)=>{
         event.preventDefault()
@@ -25,21 +28,37 @@ function LinksCreateForm({didSubmit}) {
         const response = await fetch(endpoint, options)
 
         const result = await response.json()
-        console.log(result)
+    
         setResults(result)
         if(didSubmit){
             didSubmit(result)
         }
+        if(result.message){
+            setMessage(result.message)
+        }
     }
   return <>
-  <form action="" onSubmit={handleForm}>
-    <input type="text" 
-        defaultValue='https://github.com/ahmad-olu/url-shortener-1'
-        name="url" 
-        placeholder="your url to shorten"/>
-    <button type="submit"> Shorten</button>
+  {message && <Alert color='warning'>{message}</Alert>}
+  <form action="" onSubmit={handleForm} className="flex max-w-md flex-col gap-4">
+    <div>
+    <div className="mb-2 block">
+          <Label
+            htmlFor="url"
+            value="Your Url"
+          />
+        </div>
+        <TextInput
+          id="url"
+          placeholder="your url to shorten"
+          required
+          name="url"
+          type="text"
+        />
+      </div>
+    <Button type="submit">
+        Shorten
+      </Button>
   </form>
-  {results && JSON.stringify(results)}
   </>;
 }
 

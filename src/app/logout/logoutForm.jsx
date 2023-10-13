@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from "flowbite-react";
 import Link from "next/link";
 
 
@@ -28,10 +29,11 @@ function LogOutForm({didSubmit}) {
 
     }
   return <>
-  <form action="" onSubmit={handleForm}>
+  <form className="flex max-w-md flex-col gap-4" action="" onSubmit={handleForm}>
    <div>Are you sure you want to logout</div>
-    <button type="submit"> yes continue</button>
-    <Link href='/'> Go Home</Link>
+   
+    <Button className="mb-2" type="submit"> yes continue</Button>
+    <Button color="gray" href='/'>No, Go Home</Button>
   </form>
   </>;
 }

@@ -63,7 +63,6 @@ export async function addLink(url) {
   if (user) {
     newLink["userId"] = user;
   }
-  //console.log(newLink);
   let response = { message: `${url} is not valid. Please try again` };
   let responseStatus = 400;
   try {
