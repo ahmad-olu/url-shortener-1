@@ -1,12 +1,13 @@
 import React from "react";
-import LinksHTMLTable from "./table";
+import RegisterForm from "./createForm";
 
 
-function LinksPage() {
+
+function RegisterPage() {
   return <main className="flex min-h-screen flex-col items-center
               justify-between p-24">
-    <LinksHTMLTable />
+    <RegisterForm />
   </main>;
 }
 
-export default LinksPage;
+export default RegisterPage;

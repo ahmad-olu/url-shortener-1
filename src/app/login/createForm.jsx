@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 
 
-function LinksCreateForm({didSubmit}) {
+function LoginForm({didSubmit}) {
     const [results, setResults] = useState(null)
 
     const handleForm = async (event)=>{
@@ -13,7 +13,7 @@ function LinksCreateForm({didSubmit}) {
         const formData = new FormData(event.target)
         const data = Object.fromEntries(formData)
         const JSONData = JSON.stringify(data)
-        const endpoint = "api/links/"
+        const endpoint = "api/auth/login/"
 
         const options = {
             method: "POST",
@@ -23,9 +23,12 @@ function LinksCreateForm({didSubmit}) {
             body: JSONData
         }
         const response = await fetch(endpoint, options)
+        if(response.status === 200){
+            window.location.href="/"
+        }
 
         const result = await response.json()
-        console.log(result)
+        
         setResults(result)
         if(didSubmit){
             didSubmit(result)
@@ -33,14 +36,12 @@ function LinksCreateForm({didSubmit}) {
     }
   return <>
   <form action="" onSubmit={handleForm}>
-    <input type="text" 
-        defaultValue='https://github.com/ahmad-olu/url-shortener-1'
-        name="url" 
-        placeholder="your url to shorten"/>
-    <button type="submit"> Shorten</button>
+    <input type="text" name="username" placeholder="Your username..."/>
+    <input type="password" name="password" placeholder="Your password..."/>
+    <button type="submit"> Log in</button>
   </form>
   {results && JSON.stringify(results)}
   </>;
 }
 
-export default LinksCreateForm;
+export default LoginForm;

@@ -1,15 +1,5 @@
 import { NextResponse } from "next/server";
-
-import isValidURL from "@/app/lib/isValidURL";
-import { getMinLinksAndVisits } from "@/app/lib/db";
-import { addLink } from "@/app/lib/db";
-
-//export const runtime = "edge"
-
-export async function GET(request) {
-  const links = await getMinLinksAndVisits(100, 0);
-  return NextResponse.json(links, { status: 200 });
-}
+import { registerUser } from "@/app/lib/db";
 
 export async function POST(request) {
   // using standard HTML form
@@ -20,19 +10,30 @@ export async function POST(request) {
     return NextResponse.json({ error: "Invalid request" }, { status: 415 });
   }
   const data = await request.json();
-  const url = data && data.url ? data.url : null;
-  const validURL = await isValidURL(url, [
-    "jref.io",
-    "jref-io.vercel.app",
-    process.env.NEXT_PUBLIC_VERCEL_URL,
-  ]);
-  if (!validURL) {
+  const { username, password, passwordConfirm } = data;
+
+  if (password !== passwordConfirm) {
     return NextResponse.json(
-      { message: `${url} is not valid.` },
+      { message: "password must match. Please try again" },
       { status: 400 }
     );
   }
-  const dbResponse = await addLink(url);
+
+  const isValidData = username && password;
+  if (!isValidData) {
+    return NextResponse.json(
+      { message: "username & password are required" },
+      { status: 400 }
+    );
+  }
+  const toSaveData = {
+    username: data.username,
+    password: data.password,
+  };
+  if (data.email) {
+    toSaveData["email"] = data.email;
+  }
+  const dbResponse = await registerUser(toSaveData);
   const responseData = dbResponse && dbResponse.data ? dbResponse.data : {};
   const responseStatus =
     dbResponse && dbResponse.status ? dbResponse.status : 500;

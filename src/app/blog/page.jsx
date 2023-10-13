@@ -48,5 +48,6 @@ async function BlogPage() {
 export default BlogPage;
 
 
+
 export const runtime = 'edge' //nodejs -< default
 export const preferredRegion = 'iad1' /// auto
